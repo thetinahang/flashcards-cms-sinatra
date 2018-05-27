@@ -1,4 +1,4 @@
-class CreateFlashcards < ActiveRecord::Migration[4.2]
+class CreateFlashcards < ActiveRecord::Migration[5.1]
 	def change
 		create_table :flashcards do |t| 
 			t.string :question
