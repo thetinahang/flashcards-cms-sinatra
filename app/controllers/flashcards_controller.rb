@@ -7,13 +7,11 @@ class FlashcardsController < ApplicationController
 
 	get "/flashcards/new" do 
 		redirect_if_not_logged_in
-		@error_message = params[:error]
 		erb :'flashcards/new'
 	end 
 
 	get "/flashcards/:id/edit" do 
 		redirect_if_not_logged_in
-		@error_message = params[:error]
 		@flashcard = Flashcard.find(params[:id])
 		erb :'flashcards/edit'
 	end
@@ -39,14 +37,14 @@ class FlashcardsController < ApplicationController
 
 	post "/flashcards" do 
 		if params[:question] == "" || params[:answer] == "" 
-			redirect "/flashcards/new"
+			redirect '/flashcards/new'
 		else 
 			@flashcard = Flashcard.create(params)
 			redirect "/flashcards/#{@flashcard.id}"
 		end 
 	end 
 
-	post '/flashcards/:id/delete' do
+	post "/flashcards/:id/delete" do
 		flashcard = Flashcard.find(params[:id])
 		flashcard.delete
 		redirect '/stacks'

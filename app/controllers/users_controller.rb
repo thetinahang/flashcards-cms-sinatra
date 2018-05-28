@@ -19,7 +19,6 @@ class UsersController < ApplicationController
 	end 
 
 	get '/login' do 
-		@error_message = params[:error]
 		if !session[:user_id]
 			erb :'users/login'
 		else 
@@ -44,19 +43,6 @@ class UsersController < ApplicationController
 		else 
 			redirect '/'
 		end
-	end 
-
-	get '/users/:id' do 
-		if !logged_in? 
-			redirect '/'
-		end 
-
-		@user = User.find(params[:id])
-		if !@user.nil? && @user == current_user 
-			erb :'users/show'
-		else 
-			redirect '/stacks'
-		end  
 	end 
 
 end

@@ -12,13 +12,28 @@ class StacksController < ApplicationController
 
 	get "/stacks/new" do 
 		redirect_if_not_logged_in
-		@error_message = params[:error]
 		erb :'stacks/new'
+	end 
+
+	post "/stacks" do 
+		if params[:title] == ""
+			redirect "/stacks/new"
+		else 
+			@user = User.find(current_user.id)
+			@stack = Stack.create(:title => params[:title])
+			@user.stacks << @stack 
+			redirect "/stacks/#{@stack.id}"
+		end 
+	end 
+
+	get "/stacks/:id" do 
+		redirect_if_not_logged_in
+		@stack = Stack.find(params[:id])
+		erb :'stacks/show'
 	end 
 
 	get "/stacks/:id/edit" do 
 		redirect_if_not_logged_in
-		@error_message = params[:error]
 		@stack = Stack.find(params[:id])
 		erb :'stacks/edit'
 	end
@@ -33,32 +48,15 @@ class StacksController < ApplicationController
 			redirect to "/stacks/#{params[:id]}"
 		end
 	end 
-
-	get "/stacks/:id" do 
-		redirect_if_not_logged_in
-		@stack = Stack.find(params[:id])
-		erb :'stacks/show'
-	end 
  
-	post "/stacks" do 
-		if params[:title] == ""
-			redirect "/stacks/new"
-		else 
-			@user = User.find(current_user.id)
-			@stack = Stack.create(:title => params[:title])
-			@user.stacks << @stack 
-			redirect "/stacks/#{@stack.id}"
-		end 
-	end 
-
-	post '/stacks/:id/delete' do
+	post "/stacks/:id/delete" do
 		stack = Stack.find(params[:id])
 		if stack.user_id == current_user.id
 			stack.delete
 			stack.save
-			redirect to "/stacks"
+			redirect to '/stacks'
 		else
-			redirect to "/stacks"
+			redirect to '/stacks'
 		end
 	end
 
