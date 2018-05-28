@@ -1,9 +1,13 @@
 class StacksController < ApplicationController
 
 	get "/stacks" do 
-		redirect_if_not_logged_in
-		@stacks = Stack.all
-		erb :'stacks/index'
+		if logged_in?
+			@user = User.find(current_user.id)
+			@stacks = Stack.all
+			erb :'stacks/index'
+		else
+			redirect_if_not_logged_in
+		end
 	end 
 
 	get "/stacks/new" do 
@@ -19,29 +23,32 @@ class StacksController < ApplicationController
 		erb :'stacks/edit'
 	end
 
-	post "/stacks/:id" do 
-		redirect_if_not_logged_in
-		@stack = Stack.find(params[:id])
-		unless Stack.valid_params?(params)
-			redirect "/stacks/#{@stack.id}/edit?error=invalid stack"
-		end 
-		@stack.update(params.select{|k|k == "title" || k == "user_id"})
-		redirect "/stacks/#{@stack.id}"
+	patch "/stacks/:id" do 
+		@stack = Stack.find_by_id(params[:id])
+		if params[:title] == ""
+			redirect to "/stacks/#{params[:id]}/edit"
+		else
+			@stack.title = params[:title]
+			@stack.save
+			redirect to "/stacks/#{params[:id]}"
+		end
 	end 
 
 	get "/stacks/:id" do 
 		redirect_if_not_logged_in
-		@stacl = Stack.find(params[:id])
+		@stack = Stack.find(params[:id])
 		erb :'stacks/show'
 	end 
-
+ 
 	post "/stacks" do 
-		redirect_if_not_logged_in
-		unless Stack.valid_params?(params)
-			redirect "/stacks/new?error=invalid stack"
+		if params[:title] == ""
+			redirect "/stacks/new"
+		else 
+			@user = User.find(current_user.id)
+			@stack = Stack.create(:title => params[:title])
+			@user.stacks << @stack 
+			redirect "/stacks/#{@stack.id}"
 		end 
-		Stack.create(params)
-		redirect "/stacks"
 	end 
 
 end

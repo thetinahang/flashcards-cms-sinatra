@@ -5,6 +5,13 @@
 	<input id="hidden" type="hidden" name="_method" value="patch">
 	<input type="text" name="question" value="<%=@flashcard.question%>">
 	<input type="text" name="answer" value="<%=@flashcard.answer%>">
+	<p>Stack ID = <%= @flashcard.stack_id %></p>
+	<p>Which stack does this belong to?</p>
+	<select name="stack_id">
+		<% current_user.stacks.each do |stack| %>
+			<option value=<%=stack.id%>><%= stack.title %></option> 
+		<% end %>
+	</select>
 	<input type="submit" id="submit" value="submit">
 </form>
 
@@ -12,9 +19,9 @@
 	<input type="submit" value="Delete flashcard">
 </form>
 
-
-<br><br>
-<a href="/">Home Page</a>
-<h3><a href="/stacks/new">Create a new stack.</a></h3>
-<h3><a href="/flashcards/new">Create a new flashcard.</a></h3>
-<h3><a href="/logout">Logout</a></h3>
+<br><br><br><br>
+<h2>What would you like to do next?</h2>
+<h4><a href="/stacks">See my Stacks</a></h4>
+<h4><a href="/stacks/new">Create a new Stack</a></h4>
+<h4><a href="/flashcards/new">Create a new Flashcard</a></h4>
+<h4><a href="/logout">Log Out</a></h4>

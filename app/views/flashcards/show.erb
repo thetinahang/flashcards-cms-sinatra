@@ -1,21 +1,22 @@
 
-<h2>Question: <%= @flashcard.title %></h2>
-<h2>Subject: <%= @flashcard.subject %></h2>
-<h2>Flashcard ID: <%= @flashcard.id %></h2>
+<h1>Question: <%= @flashcard.question %></h1>
+<h2>Answer: <%= @flashcard.answer%></h2>
+<br><br>
+<h4>Flashcard ID: <%= @flashcard.id %></h4>
 
+<br><br>
 
 <form action="/flashcards/<%=@flashcard.id%>/edit" method="get">
-	<input type="submit" value="Edit flashcard">
+	<input type="submit" value="Edit Flashcard">
 </form>
 
 <form action="/flashcards/<%=@flashcard.id%>/delete" method="post">
-	<input type="submit" value="Delete flashcard">
+	<input type="submit" value="Delete Flashcard">
 </form>
 
-
-
-
-<h3><a href="/">Home Page</a></h3>
-<h3><a href="/stacks/new">Create a new stack.</a></h3>
-<h3><a href="/flashcards/new">Create a new flashcard.</a></h3>
-<h3><a href="/logout">Logout</a></h3>
+<br><br><br><br>
+<h2>What would you like to do next?</h2>
+<h4><a href="/stacks">See my Stacks</a></h4>
+<h4><a href="/stacks/new">Create a new Stack</a></h4>
+<h4><a href="/flashcards/new">Create a new Flashcard</a></h4>
+<h4><a href="/logout">Log Out</a></h4>

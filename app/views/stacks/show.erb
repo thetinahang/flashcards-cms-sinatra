@@ -1,0 +1,25 @@
+<h1>This is the <%= @stack.title %> Stack.</h1>
+<h3>Stack ID: <%= @stack.id %></h3>
+
+<h2>Flashcards in this Stack:</h2>
+<% @stack.flashcards.each do |flashcard| %>
+	<li><a href="/flashcards/<%=flashcard.id%>"><%= flashcard.question %></a></li>
+<% end %>
+
+<br><br>
+<form action="/stacks/<%=@stack.id%>/edit" method="get">
+	<input type="submit" value="Edit stack">
+</form>
+
+<form action="/stacks/<%=@stack.id%>/delete" method="post">
+	<input type="submit" value="Delete stack">
+</form>
+
+
+
+<br><br><br><br>
+<h2>What would you like to do next?</h2>
+<h4><a href="/stacks">See my Stacks</a></h4>
+<h4><a href="/stacks/new">Create a new Stack</a></h4>
+<h4><a href="/flashcards/new">Create a new Flashcard</a></h4>
+<h4><a href="/logout">Log Out</a></h4>

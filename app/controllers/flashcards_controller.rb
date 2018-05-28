@@ -19,14 +19,17 @@ class FlashcardsController < ApplicationController
 		erb :'flashcards/edit'
 	end
 
-	post "/flashcards/:id" do 
-		redirect_if_not_logged_in
-		@flashcard = Flashcard.find(params[:id])
-		unless Flashcard.valid_params?(params)
-			redirect "/flashcards/#{@flashcard.id}/edit?error=invalid flashcard"
-		end 
-		@flashcard.update(params.select{|k|k == "question" || k == "answer" || k == "stack_id"})
-		redirect "/flashcards/#{@flashcard.id}"
+	patch "/flashcards/:id" do 
+		@flashcard = Flashcard.find_by_id(params[:id])
+		if params[:question] == "" || params[:answer] == "" 
+			redirect to "/flashcards/#{params[:id]}/edit"
+		else
+			@flashcard.question = params[:question]
+			@flashcard.answer = params[:answer]
+			@flashcard.stack_id = params[:stack_id]
+			@flashcard.save
+			redirect to "/flashcards/#{params[:id]}"
+		end
 	end 
 
 	get "/flashcards/:id" do 
@@ -36,11 +39,11 @@ class FlashcardsController < ApplicationController
 	end 
 
 	post "/flashcards" do 
-		redirect_if_not_logged_in
-		unless Flashcard.valid_params?(params)
-			redirect "/flashcards/new?error=invalid flashcard"
+		if params[:question] == "" || params[:answer] == "" 
+			redirect "/flashcards/new"
+		else 
+			@flashcard = Flashcard.create(params)
+			redirect "/flashcards/#{@flashcard.id}"
 		end 
-		Flashcard.create(params)
-		redirect "/flashcards"
 	end 
 end

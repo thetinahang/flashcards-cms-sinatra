@@ -1,1 +1,13 @@
-# show all of the stacks here 
+<h1>Welcome, <%= current_user.username %>!</h1>
+
+<h2>Your Stacks:</h2>
+<% @user.stacks.each do |stack| %>
+	<h3>Stack Title: <%= stack.title %></h3>
+	<h4>Stack ID: <%= stack.id %></h4>
+	<a href="/stacks/<%= stack.id %>">See this Stack's Flashcards</a><br>
+<% end %>
+<br><br><br><br>
+<h2>What would you like to do next?</h2>
+<h4><a href="/stacks/new">Create a new Stack</a></h4>
+<h4><a href="/flashcards/new">Create a new Flashcard</a></h4>
+<h4><a href="/logout">Log Out</a></h4>
