@@ -2,8 +2,7 @@ class FlashcardsController < ApplicationController
 	
 	get "/flashcards" do 
 		redirect_if_not_logged_in
-		@flashcards = Flashcard.all
-		erb :'flashcards/index'
+		erb :'/stacks'
 	end 
 
 	get "/flashcards/new" do 
@@ -46,4 +45,10 @@ class FlashcardsController < ApplicationController
 			redirect "/flashcards/#{@flashcard.id}"
 		end 
 	end 
+
+	post '/flashcards/:id/delete' do
+		flashcard = Flashcard.find(params[:id])
+		flashcard.delete
+		redirect '/stacks'
+	end
 end

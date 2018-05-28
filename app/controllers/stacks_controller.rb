@@ -51,4 +51,15 @@ class StacksController < ApplicationController
 		end 
 	end 
 
+	post '/stacks/:id/delete' do
+		stack = Stack.find(params[:id])
+		if stack.user_id == current_user.id
+			stack.delete
+			stack.save
+			redirect to "/stacks"
+		else
+			redirect to "/stacks"
+		end
+	end
+
 end

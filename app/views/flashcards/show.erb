@@ -2,9 +2,6 @@
 <h1>Question: <%= @flashcard.question %></h1>
 <h2>Answer: <%= @flashcard.answer%></h2>
 <br><br>
-<h4>Flashcard ID: <%= @flashcard.id %></h4>
-
-<br><br>
 
 <form action="/flashcards/<%=@flashcard.id%>/edit" method="get">
 	<input type="submit" value="Edit Flashcard">

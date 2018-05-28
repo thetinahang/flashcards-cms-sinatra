@@ -6,17 +6,17 @@
 	<input type="text" name="question" value="<%=@flashcard.question%>">
 	<input type="text" name="answer" value="<%=@flashcard.answer%>">
 	<p>Stack ID = <%= @flashcard.stack_id %></p>
-	<p>Which stack does this belong to?</p>
+	<p>Please pick the stack it should belong to.</p>
 	<select name="stack_id">
 		<% current_user.stacks.each do |stack| %>
-			<option value=<%=stack.id%>><%= stack.title %></option> 
+			<option value=<%=stack.id%>><%= stack.id %>. <%= stack.title %></option> 
 		<% end %>
 	</select>
-	<input type="submit" id="submit" value="submit">
+	<input type="submit" id="submit" value="Submit">
 </form>
 
 <form action="/flashcards/<%=@flashcard.id%>/delete" method="post">
-	<input type="submit" value="Delete flashcard">
+	<input type="submit" value="Delete Flashcard">
 </form>
 
 <br><br><br><br>
