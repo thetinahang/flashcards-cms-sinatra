@@ -11,8 +11,12 @@ class StacksController < ApplicationController
 	end 
 
 	get "/stacks/new" do 
-		redirect_if_not_logged_in
-		erb :'stacks/new'
+		if logged_in? 
+			@user = User.find(current_user.id)
+			erb :'stacks/new'
+		else 
+			redirect_if_not_logged_in
+		end 
 	end 
 
 	post "/stacks" do 
@@ -27,15 +31,31 @@ class StacksController < ApplicationController
 	end 
 
 	get "/stacks/:id" do 
-		redirect_if_not_logged_in
-		@stack = Stack.find(params[:id])
-		erb :'stacks/show'
+		if logged_in?
+			@user = User.find(current_user.id)
+			@stack = Stack.find(params[:id])
+			if @stack.user_id == current_user.id 
+				erb :'stacks/show'
+			else 
+				redirect '/stacks'
+			end
+		else 
+			redirect_if_not_logged_in
+		end 
 	end 
 
 	get "/stacks/:id/edit" do 
-		redirect_if_not_logged_in
-		@stack = Stack.find(params[:id])
-		erb :'stacks/edit'
+		if logged_in?
+			@user = User.find(current_user.id)
+			@stack = Stack.find(params[:id])
+			if @stack.user_id == current_user.id 
+				erb :'stacks/edit'
+			else 
+				redirect '/stacks'
+			end 
+		else 
+			redirect_if_not_logged_in
+		end 
 	end
 
 	patch "/stacks/:id" do 
