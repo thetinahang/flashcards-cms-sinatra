@@ -10,7 +10,7 @@ class FlashcardsController < ApplicationController
 		erb :'flashcards/new'
 	end 
 
-	get "/flashcards/:id/edit" do #user needs to be verified
+	get "/flashcards/:id/edit" do
 		@flashcard = Flashcard.find(params[:id])
 		if @flashcard.user_id == current_user.id
 			erb :'flashcards/edit'
@@ -19,9 +19,8 @@ class FlashcardsController < ApplicationController
 		end
 	end
 
-	patch "/flashcards/:id" do #user needs to be verified
+	patch "/flashcards/:id" do
 		if logged_in?
-			#@user=User.find_by_id(params[:id]) #needs to be connected to the stacks table?
 			@flashcard = Flashcard.find_by_id(params[:id])
 			if @flashcard.user_id == current_user.id
 				if params[:question] == "" || params[:answer] == "" 
@@ -41,7 +40,7 @@ class FlashcardsController < ApplicationController
 		end
 	end 
 
-	get "/flashcards/:id" do #user needs to be verified
+	get "/flashcards/:id" do
 		@flashcard = Flashcard.find(params[:id])
 		if @flashcard.user_id == current_user.id 
 			erb :'flashcards/show'
